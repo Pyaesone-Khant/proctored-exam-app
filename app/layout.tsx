@@ -1,3 +1,6 @@
+import '@mantine/core/styles.css';
+
+import { MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
@@ -33,7 +36,13 @@ export default function RootLayout({
       <body
         className={` ${roboto.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <MantineProvider
+          theme={{
+            fontFamily: "Roboto, sans-serif",
+          }}
+        >
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );
