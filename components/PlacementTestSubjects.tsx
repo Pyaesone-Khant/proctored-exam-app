@@ -1,10 +1,15 @@
-"use client";
 
 import { usePlacementTestStore } from "@/states/zustand/placement-test";
 import { Box, Button, Text, Title } from "@mantine/core";
 import { ArrowLeft, ArrowRight, BookOpenText, Microscope, SquareSigma } from "lucide-react";
 
-export function PlacementTestSubjects() {
+export function PlacementTestSubjects({
+    onStartExam,
+    onBack,
+}: Readonly<{
+    onStartExam: () => void;
+    onBack: () => void;
+}>) {
 
     const clearAccessCode = usePlacementTestStore((state) => state.clearAccessCode);
 
@@ -63,7 +68,10 @@ export function PlacementTestSubjects() {
             >
                 <Button
                     variant="outline"
-                    onClick={clearAccessCode}
+                    onClick={() => {
+                        clearAccessCode()
+                        onBack()
+                    }}
                     c={"gray.7"}
                     className="!border-gray-700 max-md:!w-full"
                     leftSection={

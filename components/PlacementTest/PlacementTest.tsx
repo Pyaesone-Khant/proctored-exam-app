@@ -1,28 +1,25 @@
-import { Badge, Title } from "@mantine/core";
-
-const questions: Question[] = [
-    {
-        id: 1,
-        question: "What is the capital of France?",
-        answer: "Paris",
-        options: ["Madrid", "Paris", "Amsterdarm", "Bangkok"],
-    },
-    {
-        id: 2,
-        question: "What is the capital of Myanmar?",
-        answer: "Nay Pyi Daw",
-        options: ["Mandalay", "Yangon", "Nay Pyi Daw", "Sagaing"],
-    }
-]
+import { useTestStore } from "@/states/zustand/test";
+import { Badge, Text, Title } from "@mantine/core";
+import { Question } from "../common/Question";
+import { TestControl } from "./TestControl";
 
 export function PlacementTest() {
 
+    const questions = useTestStore(state => state.questions);
+    const currentQuestionIndex = useTestStore(state => state.currentQuestionIndex);
+    const currentQuestion = useTestStore(state => state.getCurrentQuestion());
+
     return (
-        <section>
+        <section
+            className="space-y-6 p-10"
+        >
             <article
                 className="flex items-center justify-between py-2 border-b"
             >
-                <Title>
+                <Title
+                    order={1}
+                    className="text-primary"
+                >
                     English Test
                 </Title>
                 <Badge
@@ -30,12 +27,21 @@ export function PlacementTest() {
                     fw={500}
                     variant="light"
                     color="orange"
+                    size="xl"
                 >
                     1:00
                 </Badge>
             </article>
 
-            
+            <article>
+                <Text>
+                    Question {currentQuestionIndex + 1} of {questions.length}
+                </Text>
+            </article>
+            <Question
+                {...currentQuestion}
+            />
+            <TestControl />
         </section>
     )
 }

@@ -19,34 +19,34 @@ export function VideoRecorder() {
         getInitialValueInEffect: true,
     })
 
+    console.log(isCameraPermissionAllowed)
+
     useEffect(() => {
-        if (!isCameraPermissionAllowed) {
-            setShowModal(true);
-            setCameraError(null);
-            if (isRequesting) {
-                const checkCameraPermission = async () => {
-                    try {
-                        const status = await navigator.permissions.query({ name: "camera" });
+        setShowModal(true);
+        setCameraError(null);
+        if (isRequesting) {
+            const checkCameraPermission = async () => {
+                try {
+                    const status = await navigator.permissions.query({ name: "camera" });
+                    setPermissionStatus(status.state as 'prompt' | 'granted' | 'denied');
+
+                    status.onchange = () => {
                         setPermissionStatus(status.state as 'prompt' | 'granted' | 'denied');
-
-                        status.onchange = () => {
-                            setPermissionStatus(status.state as 'prompt' | 'granted' | 'denied');
-                        }
-                    } catch (error: any) {
-                        console.error("Error checking camera permission:", error);
-                        setCameraError("Unable to check camera permission. Please try again.");
                     }
+                } catch (error: any) {
+                    console.error("Error checking camera permission:", error);
+                    setCameraError("Unable to check camera permission. Please try again.");
                 }
-
-                if (typeof navigator !== undefined && navigator.permissions) {
-                    checkCameraPermission();
-                } else {
-                    setPermissionStatus('denied');
-                }
-
             }
+
+            if (typeof navigator !== undefined && navigator.permissions) {
+                checkCameraPermission();
+            } else {
+                setPermissionStatus('denied');
+            }
+
         }
-    }, [isRequesting, isCameraPermissionAllowed]);
+    }, [isRequesting]);
 
     const requestCameraPermission = async () => {
         setIsRequesting(true);
@@ -272,12 +272,12 @@ export function VideoRecorder() {
                     </Text>
                 </div>
 
-                <Button
+                {/* <Button
                     onClick={stopRecording}
                     disabled={status === "stopped"}
                 >
                     Stop Recording
-                </Button>
+                </Button> */}
             </div>
         </>
     )

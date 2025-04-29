@@ -1,39 +1,20 @@
 'use client';
 
-import { AskAccessCode } from "@/components/AskAccessCode";
+import { PlacementTest } from "@/components/PlacementTest/PlacementTest";
 import { ScheduleOralTest } from "@/components/ScheduleOralTest";
-import { usePlacementTestStore } from "@/states/zustand/placement-test";
 import dynamic from "next/dynamic";
 
-const PlacementTestInstruction = dynamic(
-    () => import("@/components/PlacementTestInstruction").then((mod) => mod.PlacementTestInstruction),
-    { ssr: false }
-)
-
-const PlacementTestSubjects = dynamic(
-    () => import("@/components/PlacementTestSubjects").then((mod) => mod.PlacementTestSubjects),
+const Home = dynamic(
+    () => import("@/components/Home").then((mod) => mod.Home),
     { ssr: false }
 )
 
 export default function Page() {
 
-    const accessCode = usePlacementTestStore((state) => state.accessCode);
-
     return (
         <>
-            {
-                !accessCode && (
-                    <AskAccessCode />
-                )
-            }
-
-            {
-                accessCode && (
-                    <PlacementTestInstruction />
-                )
-            }
-
-            <PlacementTestSubjects />
+            <Home />
+            <PlacementTest />
             <ScheduleOralTest />
         </>
     )

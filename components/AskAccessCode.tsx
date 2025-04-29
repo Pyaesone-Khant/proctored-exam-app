@@ -4,11 +4,19 @@ import { CalendarDaysIcon, ChartBar, Edit, Loader2 } from "lucide-react";
 import React from "react";
 import { Input } from "./ui/input";
 
-export function AskAccessCode() {
+export function AskAccessCode({
+    onStartExam,
+    onScheduleOralTest,
+    onViewTestResult,
+}: Readonly<{
+    onStartExam: () => void;
+    onScheduleOralTest: () => void;
+    onViewTestResult: () => void;
+}>) {
     const inputRef = React.useRef<HTMLInputElement>(null);
     const { setAccessCode, error, setError, loading, setLoading } = usePlacementTestStore();
 
-    const handleSubmit = () => {
+    const handleSubmit = (type: 'exam' | 'oralTest' | 'testResults') => {
         setLoading(true);
         setError(undefined);
 
@@ -25,12 +33,20 @@ export function AskAccessCode() {
             return;
         }
 
-
-        // Simulate an API call
         setTimeout(() => {
             setLoading(false);
             setAccessCode(code);
-            // Handle success or error here
+            switch (type) {
+                case 'exam':
+                    onStartExam();
+                    break;
+                case 'oralTest':
+                    onScheduleOralTest();
+                    break;
+                case 'testResults':
+                    onViewTestResult();
+                    break;
+            }
         }, 2000);
     };
 
@@ -106,7 +122,7 @@ export function AskAccessCode() {
                         />
                     }
                     index={1}
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit('exam')}
                 />
 
                 <Option
@@ -118,7 +134,7 @@ export function AskAccessCode() {
                         />
                     }
                     index={2}
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit('oralTest')}
                 />
 
                 <Option
@@ -130,7 +146,7 @@ export function AskAccessCode() {
                         />
                     }
                     index={3}
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit('testResults')}
                 />
             </div>
 

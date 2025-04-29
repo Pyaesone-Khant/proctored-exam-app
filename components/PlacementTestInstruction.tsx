@@ -1,5 +1,3 @@
-"use client";
-
 import { cn } from "@/lib/utils";
 import { usePlacementTestStore } from "@/states/zustand/placement-test";
 import { Badge, Box, Button, Text, Title } from "@mantine/core";
@@ -7,7 +5,13 @@ import { ArrowRight, CalendarCheck, ClipboardList, Clock, Home } from "lucide-re
 import { VideoRecorder } from "./VideoRecorder";
 
 
-export function PlacementTestInstruction() {
+export function PlacementTestInstruction({
+    onStartExam,
+    onBack,
+}: Readonly<{
+    onStartExam: () => void;
+    onBack: () => void;
+}>) {
 
     const accessCode = usePlacementTestStore((state) => state.accessCode);
     const clearAccessCode = usePlacementTestStore((state) => state.clearAccessCode);
@@ -106,7 +110,10 @@ export function PlacementTestInstruction() {
             >
                 <Button
                     variant="outline"
-                    onClick={clearAccessCode}
+                    onClick={() => {
+                        clearAccessCode()
+                        onBack()
+                    }}
                     c={"gray.7"}
                     className="!border-gray-700 max-md:!w-full"
                     leftSection={
@@ -125,6 +132,7 @@ export function PlacementTestInstruction() {
                         />
                     }
                     className="max-md:!w-full"
+                    onClick={onStartExam}
                 >
                     Continue to Test
                 </Button>
