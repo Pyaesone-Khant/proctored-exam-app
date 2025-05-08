@@ -1,10 +1,10 @@
 "use client";
 
+import { useRecorderPreviewContext } from "@/context/recorder-preview.context";
 import { Badge, Box, Button, Modal, Text, Title } from "@mantine/core";
 import { useSessionStorage } from "@mantine/hooks";
 import { AlertTriangle, CheckCircle2, Video } from "lucide-react";
 import React, { useEffect } from "react";
-import { useReactMediaRecorder } from "react-media-recorder";
 import { VideoPreview } from "./VideoPreview";
 
 export function VideoRecorder() {
@@ -18,8 +18,6 @@ export function VideoRecorder() {
         defaultValue: false,
         getInitialValueInEffect: true,
     })
-
-    console.log(isCameraPermissionAllowed)
 
     useEffect(() => {
         setShowModal(true);
@@ -65,16 +63,7 @@ export function VideoRecorder() {
         }
     }
 
-    const { status, startRecording, stopRecording, previewStream } = useReactMediaRecorder({
-        video: true,
-        onStop: (blobUrl: string) => {
-            const a = document.createElement("a");
-            a.href = blobUrl;
-            a.download = "recording.mp4";
-            a.click();
-            URL.revokeObjectURL(blobUrl);
-        }
-    });
+    const { startRecording, previewStream } = useRecorderPreviewContext();
 
     return (
         <>
@@ -271,13 +260,6 @@ export function VideoRecorder() {
                         Camera monitoring is required throughout the test
                     </Text>
                 </div>
-
-                {/* <Button
-                    onClick={stopRecording}
-                    disabled={status === "stopped"}
-                >
-                    Stop Recording
-                </Button> */}
             </div>
         </>
     )

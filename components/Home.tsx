@@ -18,8 +18,6 @@ export function Home() {
     const testResult = state.matches("testResult");
     const testOverview = state.matches("testOverview");
 
-    console.log(state.value)
-
     return (
         <>
             {

@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { usePlacementTestStore } from "@/states/zustand/placement-test";
+import { TextInput } from "@mantine/core";
 import { CalendarDaysIcon, ChartBar, Edit, Loader2 } from "lucide-react";
 import React from "react";
-import { Input } from "./ui/input";
 
 export function AskAccessCode({
     onStartExam,
@@ -89,25 +89,20 @@ export function AskAccessCode({
             </article>
 
             <div
-                className="my-14 max-w-md w-full mx-auto space-y-3"
+                className="max-w-md w-full mx-auto my-14"
             >
-                <Input
+                <TextInput
                     ref={inputRef}
                     type="text"
                     placeholder="Enter your access code"
-                    className={cn("shadow-md h-12 !text-base focus-within:!ring-primary", {
-                        "border-red-500 placeholder:text-red-500": error,
-                    })}
+                    size="lg"
+                    radius={8}
+                    classNames={{
+                        input: "!text-base shadow-md",
+                        error: "!text-sm"
+                    }}
+                    error={error}
                 />
-                {
-                    error && (
-                        <p
-                            className="text-red-500 bg-red-100 p-2 rounded-md text-center text-sm"
-                        >
-                            {error}
-                        </p>
-                    )
-                }
             </div>
 
             <div

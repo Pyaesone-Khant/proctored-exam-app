@@ -1,8 +1,11 @@
+import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 export function VideoPreview({
-    stream
+    stream,
+    className = "",
 }: {
-    stream: MediaStream | null
+    stream: MediaStream | null,
+    className?: string,
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
     useEffect(() => {
@@ -12,7 +15,7 @@ export function VideoPreview({
     }, [stream])
     return (
         <div
-            className="w-full mx-auto rounded-md shadow-xl aspect-[3/2] overflow-hidden border border-gray-200 bg-black/70"
+            className={cn("w-full mx-auto rounded-md shadow-xl aspect-[3/2] overflow-hidden border border-gray-200 bg-black/70", className)}
         >
             <video
                 ref={videoRef}

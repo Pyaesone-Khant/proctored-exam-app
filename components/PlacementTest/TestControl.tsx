@@ -1,7 +1,11 @@
 import { useTestStore } from "@/states/zustand/test";
 import { Button } from "@mantine/core";
 
-export function TestControl() {
+export function TestControl({
+    onSubmit,
+}: Readonly<{
+    onSubmit: () => void;
+}>) {
 
     const currentQuestionIndex = useTestStore(state => state.currentQuestionIndex);
     const questions = useTestStore(state => state.questions);
@@ -10,7 +14,6 @@ export function TestControl() {
     const submitTest = useTestStore(state => state.submitTest);
     const userAnswers = useTestStore(state => state.userAnswers);
     const getCurrentQuestion = useTestStore(state => state.getCurrentQuestion);
-
 
     const handleNext = () => {
         if (userAnswers[getCurrentQuestion()?.id]) {
@@ -43,7 +46,10 @@ export function TestControl() {
                 ) : (
                     <Button
                         className="outline"
-                        onClick={submitTest}
+                        onClick={() => {
+                            submitTest();
+                            onSubmit();
+                        }}
                     >
                         Submit
                     </Button>

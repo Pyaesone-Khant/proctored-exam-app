@@ -1,9 +1,17 @@
+import { useRecorderPreviewContext } from "@/context/recorder-preview.context";
 import { useTestStore } from "@/states/zustand/test";
 import { Badge, Text, Title } from "@mantine/core";
 import { Question } from "../common/Question";
+import { VideoPreview } from "../VideoRecorder/VideoPreview";
 import { TestControl } from "./TestControl";
 
-export function PlacementTest() {
+export function PlacementTest({
+    onSubmit,
+}: {
+    onSubmit: () => void;
+}) {
+
+    const { previewStream } = useRecorderPreviewContext();
 
     const questions = useTestStore(state => state.questions);
     const currentQuestionIndex = useTestStore(state => state.currentQuestionIndex);
@@ -38,10 +46,24 @@ export function PlacementTest() {
                     Question {currentQuestionIndex + 1} of {questions.length}
                 </Text>
             </article>
-            <Question
-                {...currentQuestion}
+            <div
+                className="grid grid-cols-1 md:grid-cols-3"
+            >
+                <div
+                    className="col-span-2"
+                >
+                    <Question
+                        {...currentQuestion}
+                    />
+                </div>
+                <VideoPreview
+                    stream={previewStream}
+                    className="w-56 aspect-[4/5]"
+                />
+            </div>
+            <TestControl
+                onSubmit={onSubmit}
             />
-            <TestControl />
         </section>
     )
 }

@@ -1,5 +1,6 @@
 import '@mantine/core/styles.css';
 
+import { RecorderPreviewProvider } from '@/context/recorder-preview.context';
 import { MantineProvider } from "@mantine/core";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
@@ -41,7 +42,9 @@ export default function RootLayout({
             fontFamily: "Roboto, sans-serif",
           }}
         >
+        <RecorderPreviewProvider>
           {children}
+        </RecorderPreviewProvider>
         </MantineProvider>
       </body>
     </html>
